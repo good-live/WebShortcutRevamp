@@ -11,3 +11,7 @@ However it's working fine.
 * Load the plugin to generate the config in /cfg/sourcemod
 * Edit the config and reload the plugin again.
 * DONE
+## Credits
+
+* Franc1sco - For the orginial plugin and the javascript method.
+* ntoxin66 - For forcing me to take a look at this.
