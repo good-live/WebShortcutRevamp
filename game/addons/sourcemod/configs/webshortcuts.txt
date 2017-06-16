@@ -1,0 +1,3 @@
+sm_rules https://painlessgaming.eu/thread/513-regeln-cs-go-knasthaus/?postID=3523#post3523
+sm_regeln https://test.painlessgaming.eu/
+sm_preview https://store.painlessgaming.eu/
