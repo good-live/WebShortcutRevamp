@@ -17,16 +17,29 @@ public Plugin myinfo =
 
 StringMap g_hLinks;
 ConVar g_cServerId;
+ConVar g_cHost;
+
+char g_sHost[256];
+
 Database g_hDatabase = null;
 
 public void OnPluginStart()
 {
-	g_cServerId = CreateConVar("web_server_id", "1", "The servers id needs to be unique");
+	g_cServerId = CreateConVar("web_server_id", "1", "The servers id needs to be unique if you have the same shortcuts with different urls on you servers");
+	g_cHost = CreateConVar("web_server_host", "http://exampel.com/redirect.php", "The url to the php file");
+	
 	g_hLinks = new StringMap();
+	
+	AutoExecConfig(true);
 	
 	ConnectDatabase();
 	
 	LoadConfig();
+}
+
+public void OnConfigsExecuted()
+{
+	g_cHost.GetString(g_sHost, sizeof(g_sHost));
 }
 
 public void ConnectDatabase()
@@ -122,7 +135,7 @@ void OpenLink(int client)
 	char steamid[64];
 	GetClientAuthId(client, AuthId_SteamID64, steamid, sizeof(steamid));
 	char url[512];
-	Format(url, sizeof(url), "https://painlessgaming.eu/webshortcuts/test.php?serverid=%i&userid=%s", g_cServerId.IntValue, steamid);
+	Format(url, sizeof(url), "%s?serverid=%i&userid=%s", g_sHost, g_cServerId.IntValue, steamid);
 	ShowMOTDPanel(client, "Test", url, MOTDPANEL_TYPE_URL);
 	ReplyToCommand(client, "[WebShortCuts] Opening Link %s", url);
 }
