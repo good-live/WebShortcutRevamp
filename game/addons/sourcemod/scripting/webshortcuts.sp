@@ -16,7 +16,6 @@ public Plugin myinfo =
 };
 
 StringMap g_hLinks;
-ConVar g_cServerId;
 ConVar g_cHost;
 
 char g_sHost[256];
@@ -25,7 +24,6 @@ Database g_hDatabase = null;
 
 public void OnPluginStart()
 {
-	g_cServerId = CreateConVar("web_server_id", "1", "The servers id needs to be unique if you have the same shortcuts with different urls on you servers");
 	g_cHost = CreateConVar("web_server_host", "http://exampel.com/redirect.php", "The url to the php file");
 	
 	g_hLinks = new StringMap();
@@ -110,7 +108,7 @@ void SaveLink(int client, char[] link)
 	GetClientAuthId(client, AuthId_SteamID64, steamid, sizeof(steamid));
 	
 	char query[1024];
-	Format(query, sizeof(query), "INSERT INTO urls (serverid, steamid, url) VALUES (%i, '%s', '%s') ON DUPLICATE KEY UPDATE url='%s'", g_cServerId.IntValue, steamid, link, link);
+	Format(query, sizeof(query), "INSERT INTO urls (steamid, url) VALUES ('%s', '%s') ON DUPLICATE KEY UPDATE url='%s'", steamid, link, link);
 	
 	g_hDatabase.Query(DB_AddLinkCallback, query, GetClientUserId(client));
 }
@@ -135,7 +133,7 @@ void OpenLink(int client)
 	char steamid[64];
 	GetClientAuthId(client, AuthId_SteamID64, steamid, sizeof(steamid));
 	char url[512];
-	Format(url, sizeof(url), "%s?serverid=%i&userid=%s", g_sHost, g_cServerId.IntValue, steamid);
+	Format(url, sizeof(url), "%s?userid=%s", g_sHost, steamid);
 	ShowMOTDPanel(client, "Test", url, MOTDPANEL_TYPE_URL);
 	ReplyToCommand(client, "[WebShortCuts] Opening Link %s", url);
 }
