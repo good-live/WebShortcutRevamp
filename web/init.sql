@@ -27,7 +27,6 @@ SET time_zone = "+00:00";
 --
 
 CREATE TABLE IF NOT EXISTS `urls` (
-  `serverid` int(11) NOT NULL,
   `steamid` varchar(64) NOT NULL,
   `url` varchar(512) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
@@ -40,7 +39,7 @@ CREATE TABLE IF NOT EXISTS `urls` (
 -- Indizes für die Tabelle `urls`
 --
 ALTER TABLE `urls`
- ADD PRIMARY KEY (`serverid`,`steamid`);
+ ADD PRIMARY KEY (`steamid`);
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
